@@ -1,44 +1,46 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%pageContext.setAttribute( "newLine", "\n" );%>
+<!doctype html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="/css/guestbook.css">
-<title>방명록</title>
+<title>mysite</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link href="${pageContext.request.contextPath }/assets/css/guestbook.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<form action="${pageContext.request.contextPath}/guestbook/add" method="post">
-	<table border=1 width=500>
-		<tr>
-			<td>이름:</td><td><input type="text" name="name"></td>
-			<td>비밀번호:</td><td><input type="password" name="password"></td>
-		</tr>
-		<tr>
-			<td colspan=4><textarea name="content" cols=60 rows=5></textarea></td>
-		</tr>
-		<tr>
-			<td colspan=4 align=right><input type="submit" VALUE=" 등록 "></td>
-		</tr>
-	</table>
-	</form>
-	<br>
-	<c:forEach items="${list}" var="vo">
-	<table width=510 border=1>
-		<tr>
-			<td>${vo.no }</td>
-			<td>${vo.name }</td>
-			<td>${vo.regDate }</td>
-			<td><a href="${pageContext.request.contextPath}/guestbook/deleteform/${vo.no}">삭제 </a></td>
-		</tr>
-		<tr>
-			<td colspan=4>${vo.content }</td>
-		</tr>
-	</table>
-	</c:forEach>
-	</br>
-	
+	<div id="container">
+		<c:import url="/WEB-INF/views/includes/header.jsp" />
+		<div id="content">
+			<div id="guestbook">
+				<h1>방명록</h1>
+				<form action="${pageContext.request.contextPath }/guestbook/add" method="post">
+					<input type="text" name="name" placeholder="이름">
+					<input type="password" name="password" placeholder="비밀번호">
+					<textarea name="content" placeholder="내용을 입력해 주세요."></textarea>
+					<input type="submit" value="보내기" />
+				</form>
+				<ul>
+					<c:set var="count" value="${fn:length(list) }"/>
+					<c:forEach items="${list }" var="vo" varStatus="status">
+						<li>
+							<strong>${vo.name }</strong>
+							<p>
+								${fn:replace(vo.content, newLine, "<br>" ) }
+							</p>
+							<strong>${vo.regDate }</strong>
+							<a href="${pageContext.request.contextPath }/guestbook/deleteform/${vo.no }" title="삭제">삭제</a>
+						</li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
+		<c:import url="/WEB-INF/views/includes/navigation.jsp">
+			<c:param name="menu" value="guestbook"/>
+		</c:import>
+		<c:import url="/WEB-INF/views/includes/footer.jsp" />
+	</div>
 </body>
 </html>
