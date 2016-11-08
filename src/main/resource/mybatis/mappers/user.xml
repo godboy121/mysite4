@@ -4,7 +4,7 @@
 <mapper namespace="user">
 <!-- sql문들이 들어가면 된다 -->
 
-	<insert id="insert" parameterType="com.bit2016.mysite.vo.UserVo">  <!-- 파라미터로 UserVo를 받는다  -->
+	<insert id="insert" parameterType="uservo">  <!-- 파라미터로 UserVo를 받는다  -->
 	<![CDATA[    
 	 insert into users values( user_seq.nextval, #{name}, #{email}, #{password}, #{gender})
 	 

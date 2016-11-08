@@ -75,7 +75,7 @@ var fetchList = function() {
 	}
 	++page;
 	$.ajax({
-		url: "${pageContext.request.contextPath }/api/guestbook?a=ajax-list&p=" + page,
+		url: "${pageContext.request.contextPath }/guestbook/api/list?p=" + page,
 		type: "get",
 		dataType: "json",
 		data:"",

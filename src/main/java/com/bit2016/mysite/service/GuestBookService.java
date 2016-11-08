@@ -11,26 +11,29 @@ import com.bit2016.mysite.vo.GuestbookVo;
 
 @Service
 public class GuestBookService {
-	
+
 	@Autowired
 	private GuestbookDao guestbookDao;
-	
-	public List<GuestbookVo> list(){
-		
-		
+
+	public List<GuestbookVo> list() {
+
 		return guestbookDao.getList();
-		
-	
+
 	}
-	
-	public void delete(GuestbookVo vo){
+
+//	public List<GuestbookVo> list(int page) {
+//
+//		return guestbookDao.getList(page);
+//
+//	}
+
+	public void delete(GuestbookVo vo) {
 		guestbookDao.delete(vo);
-	
+
 	}
-	
-	public void add(GuestbookVo vo){
+
+	public void add(GuestbookVo vo) {
 		guestbookDao.insert(vo);
 	}
-	
 
 }

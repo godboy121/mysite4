@@ -12,52 +12,65 @@ import com.bit2016.mysite.vo.BoardVo;
 
 @Service
 public class BoardService {
-	private static final int LIST_SIZE = 5; // ¸®½ºÆÃµÇ´Â °Ô½Ã¹°ÀÇ ¼ö
-	private static final int PAGE_SIZE = 5; // ÆäÀÌÁö ¸®½ºÆ®ÀÇ ÆäÀÌÁö ¼ö
-
+	private static final int LIST_SIZE = 5; //ë¦¬ìŠ¤íŒ…ë˜ëŠ” ê²Œì‹œë¬¼ì˜ ìˆ˜
+	private static final int PAGE_SIZE = 5; //í˜ì´ì§€ ë¦¬ìŠ¤íŠ¸ì˜ í˜ì´ì§€ ìˆ˜
+	
 	@Autowired
 	private BoardDao boardDao;
+	
+	public void write( BoardVo vo ) {
+		boardDao.insert( vo );
+	}
+	
+	public BoardVo show(BoardVo vo) {
+		// TODO Auto-generated method stub
+		
+		return boardDao.get(vo.getNo());
+	}
+	
 
-	public Map<String, Object> getList(int currentPage, String keyword) {
-
-		// 1. ÆäÀÌÂ¡À» À§ÇÑ ±âº» µ¥ÀÌÅÍ °è»ê
-		int totalCount = boardDao.getTotalCount(keyword);
-		int pageCount = (int) Math.ceil((double) totalCount / LIST_SIZE);
-		int blockCount = (int) Math.ceil((double) pageCount / PAGE_SIZE);
-		int currentBlock = (int) Math.ceil((double) currentPage / PAGE_SIZE);
-
-		// 2. ÆÄ¶ó¹ÌÅÍ page °ª °ËÁõ
-		if (currentPage < 1) {
+	public Map<String, Object> getList( int currentPage, String keyword ){
+		
+		//1. í˜ì´ì§•ì„ ìœ„í•œ ê¸°ë³¸ ë°ì´í„° ê³„ì‚°
+		int totalCount = boardDao.getTotalCount( keyword ); 
+		int pageCount = (int)Math.ceil( (double)totalCount / LIST_SIZE );
+		int blockCount = (int)Math.ceil( (double)pageCount / PAGE_SIZE );
+		int currentBlock = (int)Math.ceil( (double)currentPage / PAGE_SIZE );
+		
+		//2. íŒŒë¼ë¯¸í„° page ê°’  ê²€ì¦
+		if( currentPage < 1 ) {
 			currentPage = 1;
 			currentBlock = 1;
-		} else if (currentPage > pageCount) {
+		} else if( currentPage > pageCount ) {
 			currentPage = pageCount;
-			currentBlock = (int) Math.ceil((double) currentPage / PAGE_SIZE);
+			currentBlock = (int)Math.ceil( (double)currentPage / PAGE_SIZE );
 		}
-
-		// 3. view¿¡¼­ ÆäÀÌÁö ¸®½ºÆ®¸¦ ·»´õ¸µ ÇÏ±âÀ§ÇÑ µ¥ÀÌÅÍ °ª °è»ê
-		int beginPage = currentBlock == 0 ? 1 : (currentBlock - 1) * PAGE_SIZE + 1;
-		int prevPage = (currentBlock > 1) ? (currentBlock - 1) * PAGE_SIZE : 0;
-		int nextPage = (currentBlock < blockCount) ? currentBlock * PAGE_SIZE + 1 : 0;
-		int endPage = (nextPage > 0) ? (beginPage - 1) + LIST_SIZE : pageCount;
-
-		// 4. ¸®½ºÆ® °¡Á®¿À±â
-		List<BoardVo> list = boardDao.getList(keyword, currentPage, LIST_SIZE);
-
-		// 5. ¸®½ºÆ® Á¤º¸¸¦ ¸Ê¿¡ ÀúÀå
+		
+		//3. viewì—ì„œ í˜ì´ì§€ ë¦¬ìŠ¤íŠ¸ë¥¼ ë Œë”ë§ í•˜ê¸°ìœ„í•œ ë°ì´í„° ê°’ ê³„ì‚°
+		int beginPage = currentBlock == 0 ? 1 : (currentBlock - 1)*PAGE_SIZE + 1;
+		int prevPage = ( currentBlock > 1 ) ? ( currentBlock - 1 ) * PAGE_SIZE : 0;
+		int nextPage = ( currentBlock < blockCount ) ? currentBlock * PAGE_SIZE + 1 : 0;
+		int endPage = ( nextPage > 0 ) ? ( beginPage - 1 ) + LIST_SIZE : pageCount;
+		
+		//4. ë¦¬ìŠ¤íŠ¸ ê°€ì ¸ì˜¤ê¸°
+		List<BoardVo> list = boardDao.getList( keyword, currentPage, LIST_SIZE );
+		
+		//5. ë¦¬ìŠ¤íŠ¸ ì •ë³´ë¥¼ ë§µì— ì €ì¥
 		Map<String, Object> map = new HashMap<String, Object>();
-
-		map.put("list", list);
-		map.put("totalCount", totalCount);
-		map.put("listSize", LIST_SIZE);
-		map.put("currentPage", currentPage);
-		map.put("beginPage", beginPage);
-		map.put("endPage", endPage);
-		map.put("prevPage", prevPage);
-		map.put("nextPage", nextPage);
-		map.put("keyword", keyword);
-
+		
+		map.put( "list", list );
+		map.put( "totalCount", totalCount );
+		map.put( "listSize", LIST_SIZE );
+		map.put( "currentPage", currentPage );
+		map.put( "beginPage", beginPage );
+		map.put( "endPage", endPage );
+		map.put( "prevPage", prevPage );
+		map.put( "nextPage", nextPage );
+		map.put( "keyword", keyword );
+		
 		return map;
 	}
 
+
+	
 }

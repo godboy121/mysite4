@@ -22,7 +22,7 @@ public class BoardDao {
 			String url = "jdbc:oracle:thin:@localhost:1521:xe";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
-			System.out.println("µå¶óÀÌ¹ö ·Îµù ½ÇÆĞ :" + e);
+			System.out.println("ë“œë¼ì´ë²„ ë¡œë”© ì‹¤íŒ¨ :" + e);
 		}
 		return conn;
 	}
@@ -34,7 +34,7 @@ public class BoardDao {
 			conn = getConnection();
 			
 			if( vo.getGroupNo() == null ) {
-				/* »õ±Û µî·Ï */
+				/* ìƒˆê¸€ ë“±ë¡ */
 				String sql = 
 					" insert" +
 					"   into board" +
@@ -45,7 +45,7 @@ public class BoardDao {
 				pstmt.setString( 2, vo.getContent() );
 				pstmt.setLong( 3, vo.getUserNo() );
 			} else {
-				/* ´ä±Û µî·Ï */
+				/* ë‹µê¸€ ë“±ë¡ */
 				String sql = 
 					" insert" +
 					"   into board" +
