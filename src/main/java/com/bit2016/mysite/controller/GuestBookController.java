@@ -21,6 +21,7 @@ public class GuestBookController {
 	@Autowired
 	private GuestBookService guestbookService;
 	
+	
 	@RequestMapping("")
 	public String listForm(Model model){//jsp에 data를 넣어줄때는 model을 사용해서 넘겨주어야한다.
 		List<GuestbookVo> list=	guestbookService.list();

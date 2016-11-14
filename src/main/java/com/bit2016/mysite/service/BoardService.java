@@ -23,9 +23,12 @@ public class BoardService {
 	}
 	
 	public BoardVo show(BoardVo vo) {
-		// TODO Auto-generated method stub
 		
 		return boardDao.get(vo.getNo());
+	}
+	
+	public void delete(Map<String,Object> map){
+		boardDao.delete(map);
 	}
 	
 

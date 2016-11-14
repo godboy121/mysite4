@@ -1,15 +1,6 @@
 package com.bit2016.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +13,13 @@ public class GuestbookDao {
 	@Autowired
 	private SqlSession sqlSession;//sqlSession을 통해서 mybatis에 xml로 매핑된 쿼리문으로 데이터를 준다.
 	
-	@Autowired
-	private DataSource datasource;
-	
+
 	
 
 	
 	public void delete(GuestbookVo vo) {
 		sqlSession.delete( "guestbook.delete", vo );
+		
 
 	}
 	

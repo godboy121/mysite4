@@ -7,13 +7,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bit2016.mysite.vo.BoardVo;
 
 @Repository
 public class BoardDao {
+	
+	@Autowired
+	private SqlSession sqlSession;//sqlSession을 통해서 mybatis에 xml로 매핑된 쿼리문으로 데이터를 준다.
+	
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
@@ -28,84 +35,12 @@ public class BoardDao {
 	}
 	
 	public void insert( BoardVo vo ) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		try {
-			conn = getConnection();
-			
-			if( vo.getGroupNo() == null ) {
-				/* 새글 등록 */
-				String sql = 
-					" insert" +
-					"   into board" +
-					" values( board_seq.nextval, ?, ?, sysdate, 0, nvl((select max(group_no) from board),0) + 1, 1, 0, ?)";
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setString( 1, vo.getTitle() );
-				pstmt.setString( 2, vo.getContent() );
-				pstmt.setLong( 3, vo.getUserNo() );
-			} else {
-				/* 답글 등록 */
-				String sql = 
-					" insert" +
-					"   into board" +
-					" values( board_seq.nextval, ?, ?, sysdate, 0, ?, ?, ?, ? )"; 
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setString( 1, vo.getTitle() );
-				pstmt.setString( 2, vo.getContent() );
-				pstmt.setInt( 3, vo.getGroupNo() );
-				pstmt.setInt( 4, vo.getOrderNo() );
-				pstmt.setInt( 5, vo.getDepth() );
-				pstmt.setLong( 6, vo.getUserNo() );
-			}
-
-			pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			System.out.println( "error:" + e );
-		} finally {
-			try {
-				if( pstmt != null ) {
-					pstmt.close();
-				}
-				if( conn != null ) {
-					conn.close();
-				}
-			} catch ( SQLException e ) {
-				System.out.println( "error:" + e );
-			}  
-		}
+		sqlSession.insert("board.insert", vo);
+	
 	}
 	
-	public void delete( Long boardNo, Long userNo ) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			conn = getConnection();
-			
-			String sql = "delete from board where no = ? and users_no = ?";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setLong( 1, boardNo );
-			pstmt.setLong( 2, userNo );
-			
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println( "error:" + e );
-		} finally {
-			try {
-				if( pstmt != null ) {
-					pstmt.close();
-				}
-				if( conn != null ) {
-					conn.close();
-				}
-			} catch ( SQLException e ) {
-				System.out.println( "error:" + e );
-			}  
-		}
+	public void delete( Map<String,Object> map ) {
+		sqlSession.delete("board.delete", map);
 	}
 	
 	public int getTotalCount( String keyword ) {

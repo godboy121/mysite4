@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/task
         http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-
+  
 
 	<!-- @autowired 랑 @repository 설정 -->
 	<context:component-scan
