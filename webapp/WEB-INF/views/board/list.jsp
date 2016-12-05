@@ -20,7 +20,7 @@
 				</form>
 				<table class="tbl-ex">
 					<tr>
-						<th>번호</th>
+						<th>번호!!</th>
 						<th>제목</th>
 						<th>글쓴이</th>
 						<th>조회수</th>
