@@ -40,20 +40,19 @@ public class BoardController {
 	
 	@RequestMapping(value="/delete",method=RequestMethod.GET)
 	public String delete( 
-			@RequestParam(value="no",required=true,defaultValue="") Long no,
+			@RequestParam(value="no",required=true,defaultValue="") Long no,//no 받기위해 
 			@RequestParam( value="p", required=true, defaultValue="1") Integer page,
 			@RequestParam( value="kwd", required=true, defaultValue="") String keyword,
 			HttpSession session){
 		Map <String, Object> map=new HashMap<String,Object>();
 		map.put("no", no);
-		UserVo authUser = (UserVo)session.getAttribute( "authUser" );//유저번호를 가져오기 위해 세션 유지
+		UserVo authUser = (UserVo)session.getAttribute( "authUser" );//UserNo를 가져오기 위해 세션 유지
 		map.put("userNo", authUser.getNo());
 		boardService.delete(map);//서비스에 보낸다 VO와함께
 		
 		
 
-		
-		
+	
 		
 		return "redirect:/board?p="+page+"&kwd"+keyword;//
 	}

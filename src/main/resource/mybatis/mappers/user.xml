@@ -34,27 +34,22 @@
       
    </select>
    
-   <update id="update" parameterType="uservo" >
-
-   <![CDATA[    
-      update 
-      set
-   ]]> 
-      <if test="password !=null and password!=''">
-         <![CDATA[ 
-           password=#{password},
-            ]]>
-            </if>
-            
-            
-   <![CDATA[
-      name=#{name},#{gender}
-      where no=#{no}
-      ]]>
-   
-
-   
-   </update>
+   <update id="update" parameterType="uservo">
+		<![CDATA[
+		update users
+		   set
+		]]>		   
+		<if test="password != null and password != ''">
+			<![CDATA[
+		   	password=#{password },
+		   	]]>
+		</if>
+		<![CDATA[		
+		   	   name=#{name },
+		       gender=#{gender }  	 
+		 where no=#{no }
+		]]> 
+	</update>
    
    
 
